@@ -105,7 +105,7 @@ Param::Param() {
 	
 	pipeline = true;            // false: layer-by-layer process --> huge leakage energy in HP
 								// true: pipeline process
-	speedUpDegree = 8;          // 1 = no speed up --> original speed
+	speedUpDegree = 1;          // 1 = no speed up --> original speed
 								// 2 and more : speed up ratio, the higher, the faster
 								// A speed-up degree upper bound: when there is no idle period during each layer --> no need to further fold the system clock
 								// This idle period is defined by IFM sizes and data flow, the actual process latency of each layer may be different due to extra peripheries
@@ -200,8 +200,8 @@ Param::Param() {
 
 	outputtoggle = 0.5; // output bit toggling has a negligible portion of the interconnect energy. Set it to 50 % for simpliciity and generalizability for all neural network workloads.
 
-	numRowSubArray = 128;               // # of rows in single subArray
-	numColSubArray = 128;               // # of columns in single subArray
+	numRowSubArray = 64;               // # of rows in single subArray
+	numColSubArray = 64;               // # of columns in single subArray
 
 	// 230920 update
 
@@ -255,7 +255,7 @@ Param::Param() {
 	numColMuxed=numColPerSynapse;
 	}
 	
-	levelOutput = 32;                   // # of levels of the multilevelSenseAmp output, should be in 2^N forms; e.g. 32 levels --> 5-bit ADC
+	levelOutput = 256;                   // # of levels of the multilevelSenseAmp output, should be in 2^N forms; e.g. 32 levels --> 5-bit ADC
 	cellBit = 1;                        // precision of memory device 
 	// 1.4 update: dummy column sharing - how many senseamplfiers share one dummny columns?
 	// dummy column sharing should not be high, since it could change the column cap of the dummy column.

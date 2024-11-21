@@ -2058,139 +2058,175 @@ void SubArray::CalculatePower(const vector<double> &columnResistance) {
 }
 
 void SubArray::PrintProperty() {
+	cout << endl << endl;
+	cout << "[H] SubArr Hook: " << endl;
+	cout << "SubArray (inc peripherals):" << endl;
+	if (cell.memCellType == Type::SRAM) {  //if array is SRAM
+		cout << "SRAM, " << numRow << "x" << numCol << endl;
+	} else {
+		cout << "RRAM, " << numRow << "x" << numCol << endl; 
+	}
+	cout << "numWriteCellPerOperationNeuro: " << numWriteCellPerOperationNeuro << "  activityColWrite: " << activityColWrite << "  activityRowWrite: " << activityRowWrite << endl;
+	cout << "numWritePulseAVG: " << numWritePulseAVG << " totalNumWritePulse: " << totalNumWritePulse << "  writeDynamicEnergyArray: " << writeDynamicEnergyArray << endl; 
+	cout << "numReadPulse: " << numReadPulse << " , ADC Precision: " << log2(levelOutput) << endl;
+	cout << "activityColWrite = " << activityColWrite << endl;
+	cout << "activityRowWrite = " << activityRowWrite << endl;
+	cout << "activityRowRead = " << activityRowRead << endl;
+	cout << "Height(m) = " << height << endl;
+	cout << "Width(m) = " << width << endl;
+	cout << "Area(m^2) = " << area << endl;
+	cout << "UsedArea(m^2) = " << usedArea <<  endl;
+	cout << "EmptyArea(m^2) = " << emptyArea << endl;
+	cout << "ReadDynamicEnergy(J) = " << readDynamicEnergy << endl;
+	cout << "ReadDynamicEnergyADC(J) = " << readDynamicEnergyADC << endl;
+	cout << "readDynamicEnergyAccum(J) = " << readDynamicEnergyAccum << endl;
+	cout << "readDynamicEnergyOther(J) = " << readDynamicEnergyOther << endl;
+	cout << "Leakage(J) = " << leakage << endl;
+	cout << "ReadLatency(s) = " << readLatency << endl;
+	cout << "ReadLatencyADC(s) = " << readLatencyADC << endl;
+	cout << "ReadLatencyAccum(s) = " << readLatencyAccum << endl;
+	cout << "ReadLatencyOther(s) = " << readLatencyOther << endl;
+	cout << "WriteDynamicEnergy(J) = " << writeDynamicEnergy << endl;
+	cout << "WriteLatency(s) = " << writeLatency << endl;
+	cout << "clkFreq = " << clkFreq << endl;
+	
+	cout << "[\\H]" << endl;
+	/* -- END -- Hsien's Hook*/
 
-	if (cell.memCellType == Type::SRAM) {
-		
-		cout << endl << endl;
-	    cout << "Array:" << endl;
-	    cout << "Area = " << heightArray*1e6 << "um x " << widthArray*1e6 << "um = " << areaArray*1e12 << "um^2" << endl;
-	    cout << "Read Dynamic Energy = " << readDynamicEnergyArray*1e12 << "pJ" << endl;
-	    cout << "Write Dynamic Energy = " << writeDynamicEnergyArray*1e12 << "pJ" << endl;
-		
-		precharger.PrintProperty("precharger");
-		sramWriteDriver.PrintProperty("sramWriteDriver");
-		
-		if (conventionalSequential) {
-			wlDecoder.PrintProperty("wlDecoder");			
-			senseAmp.PrintProperty("senseAmp");
-			dff.PrintProperty("dff"); 
-			adder.PrintProperty("adder");
-			if (numReadPulse > 1) {
-				shiftAddWeight.PrintProperty("shiftAddWeight");
-				shiftAddInput.PrintProperty("shiftAddInput");
-			}
-		} else if (conventionalParallel) {
-			wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
-			multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
-			multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
-			if (numReadPulse > 1) {
-				shiftAddWeight.PrintProperty("shiftAddWeight");
-				shiftAddInput.PrintProperty("shiftAddInput");
-			}
-		} else if (BNNsequentialMode || XNORsequentialMode) {
-			wlDecoder.PrintProperty("wlDecoder");			
-			senseAmp.PrintProperty("senseAmp");
-			dff.PrintProperty("dff"); 
-			adder.PrintProperty("adder");
-		} else if (BNNparallelMode || XNORparallelMode) {
-			wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
-			multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
-			multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
-		} else {
-			wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
-			multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
-			multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
-			if (numReadPulse > 1) {
-				shiftAddWeight.PrintProperty("shiftAddWeight");
-				shiftAddInput.PrintProperty("shiftAddInput");
-			}
-		}
-		
-	} else if (cell.memCellType == Type::RRAM || cell.memCellType == Type::FeFET) {
-		
-		cout << endl << endl;
-	    cout << "Array:" << endl;
-	    cout << "Area = " << heightArray*1e6 << "um x " << widthArray*1e6 << "um = " << areaArray*1e12 << "um^2" << endl;
-	    cout << "Read Dynamic Energy = " << readDynamicEnergyArray*1e12 << "pJ" << endl;
-	    cout << "Write Dynamic Energy = " << writeDynamicEnergyArray*1e12 << "pJ" << endl;
-		cout << "Write Latency = " << writeLatencyArray*1e9 << "ns" << endl;
 
-		if (conventionalSequential) {
-			wlDecoder.PrintProperty("wlDecoder");
-			if (cell.accessType == CMOS_access) {
-				wlNewDecoderDriver.PrintProperty("wlNewDecoderDriver");
-			} else {
-				wlDecoderDriver.PrintProperty("wlDecoderDriver");
-			} 
-			slSwitchMatrix.PrintProperty("slSwitchMatrix");
-			mux.PrintProperty("mux");
-			muxDecoder.PrintProperty("muxDecoder");
-			multilevelSenseAmp.PrintProperty("multilevelSenseAmp or single-bit SenseAmp");
-			multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
-			adder.PrintProperty("adder");
-			dff.PrintProperty("dff");
-			if (numReadPulse > 1) {
-				shiftAddWeight.PrintProperty("shiftAddWeight");
-				shiftAddInput.PrintProperty("shiftAddInput");
-			}
-		} else if (conventionalParallel) {
-			if (cell.accessType == CMOS_access) {
-				wlNewSwitchMatrix.PrintProperty("wlNewSwitchMatrix");
-			} else {
-				wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
-			}
-			slSwitchMatrix.PrintProperty("slSwitchMatrix");
-			mux.PrintProperty("mux");
-			muxDecoder.PrintProperty("muxDecoder");
-			multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
-			multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
-			if (numReadPulse > 1) {
-				shiftAddWeight.PrintProperty("shiftAddWeight");
-				shiftAddInput.PrintProperty("shiftAddInput");
-			}
-		} else if (BNNsequentialMode || XNORsequentialMode) {
-			wlDecoder.PrintProperty("wlDecoder");
-			if (cell.accessType == CMOS_access) {
-				wlNewDecoderDriver.PrintProperty("wlNewDecoderDriver");
-			} else {
-				wlDecoderDriver.PrintProperty("wlDecoderDriver");
-			} 
-			slSwitchMatrix.PrintProperty("slSwitchMatrix");
-			mux.PrintProperty("mux");
-			muxDecoder.PrintProperty("muxDecoder");
-			rowCurrentSenseAmp.PrintProperty("currentSenseAmp");
-			adder.PrintProperty("adder");
-			dff.PrintProperty("dff");
-		} else if (BNNparallelMode || XNORparallelMode) {
-			if (cell.accessType == CMOS_access) {
-				wlNewSwitchMatrix.PrintProperty("wlNewSwitchMatrix");
-			} else {
-				wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
-			}
-			slSwitchMatrix.PrintProperty("slSwitchMatrix");
-			mux.PrintProperty("mux");
-			muxDecoder.PrintProperty("muxDecoder");
-			multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
-			multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
-		} else {
-			if (cell.accessType == CMOS_access) {
-				wlNewSwitchMatrix.PrintProperty("wlNewSwitchMatrix");
-			} else {
-				wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
-			}
-			slSwitchMatrix.PrintProperty("slSwitchMatrix");
-			mux.PrintProperty("mux");
-			muxDecoder.PrintProperty("muxDecoder");
-			multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
-			multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
-			if (numReadPulse > 1) {
-				shiftAddWeight.PrintProperty("shiftAddWeight");
-				shiftAddInput.PrintProperty("shiftAddInput");
-			}
-		}
-	} 
-	FunctionUnit::PrintProperty("SubArray");
-	cout << "Used Area = " << usedArea*1e12 << "um^2" << endl;
-	cout << "Empty Area = " << emptyArea*1e12 << "um^2" << endl;
+
+	// if (cell.memCellType == Type::SRAM) {
+		
+	// 	cout << endl << endl;
+	//     cout << "Array:" << endl;
+	//     cout << "Area = " << heightArray*1e6 << "um x " << widthArray*1e6 << "um = " << areaArray*1e12 << "um^2" << endl;
+	//     cout << "Read Dynamic Energy = " << readDynamicEnergyArray*1e12 << "pJ" << endl;
+	//     cout << "Write Dynamic Energy = " << writeDynamicEnergyArray*1e12 << "pJ" << endl;
+		
+	// 	precharger.PrintProperty("precharger");
+	// 	sramWriteDriver.PrintProperty("sramWriteDriver");
+		
+	// 	if (conventionalSequential) {
+	// 		wlDecoder.PrintProperty("wlDecoder");			
+	// 		senseAmp.PrintProperty("senseAmp");
+	// 		dff.PrintProperty("dff"); 
+	// 		adder.PrintProperty("adder");
+	// 		if (numReadPulse > 1) {
+	// 			shiftAddWeight.PrintProperty("shiftAddWeight");
+	// 			shiftAddInput.PrintProperty("shiftAddInput");
+	// 		}
+	// 	} else if (conventionalParallel) {
+	// 		wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
+	// 		multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
+	// 		multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
+	// 		if (numReadPulse > 1) {
+	// 			shiftAddWeight.PrintProperty("shiftAddWeight");
+	// 			shiftAddInput.PrintProperty("shiftAddInput");
+	// 		}
+	// 	} else if (BNNsequentialMode || XNORsequentialMode) {
+	// 		wlDecoder.PrintProperty("wlDecoder");			
+	// 		senseAmp.PrintProperty("senseAmp");
+	// 		dff.PrintProperty("dff"); 
+	// 		adder.PrintProperty("adder");
+	// 	} else if (BNNparallelMode || XNORparallelMode) {
+	// 		wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
+	// 		multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
+	// 		multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
+	// 	} else {
+	// 		wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
+	// 		multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
+	// 		multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
+	// 		if (numReadPulse > 1) {
+	// 			shiftAddWeight.PrintProperty("shiftAddWeight");
+	// 			shiftAddInput.PrintProperty("shiftAddInput");
+	// 		}
+	// 	}
+		
+	// } else if (cell.memCellType == Type::RRAM || cell.memCellType == Type::FeFET) {
+		
+	// 	cout << endl << endl;
+	//     cout << "Array:" << endl;
+	//     cout << "Area = " << heightArray*1e6 << "um x " << widthArray*1e6 << "um = " << areaArray*1e12 << "um^2" << endl;
+	//     cout << "Read Dynamic Energy = " << readDynamicEnergyArray*1e12 << "pJ" << endl;
+	//     cout << "Write Dynamic Energy = " << writeDynamicEnergyArray*1e12 << "pJ" << endl;
+	// 	cout << "Write Latency = " << writeLatencyArray*1e9 << "ns" << endl;
+
+	// 	if (conventionalSequential) {
+	// 		wlDecoder.PrintProperty("wlDecoder");
+	// 		if (cell.accessType == CMOS_access) {
+	// 			wlNewDecoderDriver.PrintProperty("wlNewDecoderDriver");
+	// 		} else {
+	// 			wlDecoderDriver.PrintProperty("wlDecoderDriver");
+	// 		} 
+	// 		slSwitchMatrix.PrintProperty("slSwitchMatrix");
+	// 		mux.PrintProperty("mux");
+	// 		muxDecoder.PrintProperty("muxDecoder");
+	// 		multilevelSenseAmp.PrintProperty("multilevelSenseAmp or single-bit SenseAmp");
+	// 		multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
+	// 		adder.PrintProperty("adder");
+	// 		dff.PrintProperty("dff");
+	// 		if (numReadPulse > 1) {
+	// 			shiftAddWeight.PrintProperty("shiftAddWeight");
+	// 			shiftAddInput.PrintProperty("shiftAddInput");
+	// 		}
+	// 	} else if (conventionalParallel) {
+	// 		if (cell.accessType == CMOS_access) {
+	// 			wlNewSwitchMatrix.PrintProperty("wlNewSwitchMatrix");
+	// 		} else {
+	// 			wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
+	// 		}
+	// 		slSwitchMatrix.PrintProperty("slSwitchMatrix");
+	// 		mux.PrintProperty("mux");
+	// 		muxDecoder.PrintProperty("muxDecoder");
+	// 		multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
+	// 		multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
+	// 		if (numReadPulse > 1) {
+	// 			shiftAddWeight.PrintProperty("shiftAddWeight");
+	// 			shiftAddInput.PrintProperty("shiftAddInput");
+	// 		}
+	// 	} else if (BNNsequentialMode || XNORsequentialMode) {
+	// 		wlDecoder.PrintProperty("wlDecoder");
+	// 		if (cell.accessType == CMOS_access) {
+	// 			wlNewDecoderDriver.PrintProperty("wlNewDecoderDriver");
+	// 		} else {
+	// 			wlDecoderDriver.PrintProperty("wlDecoderDriver");
+	// 		} 
+	// 		slSwitchMatrix.PrintProperty("slSwitchMatrix");
+	// 		mux.PrintProperty("mux");
+	// 		muxDecoder.PrintProperty("muxDecoder");
+	// 		rowCurrentSenseAmp.PrintProperty("currentSenseAmp");
+	// 		adder.PrintProperty("adder");
+	// 		dff.PrintProperty("dff");
+	// 	} else if (BNNparallelMode || XNORparallelMode) {
+	// 		if (cell.accessType == CMOS_access) {
+	// 			wlNewSwitchMatrix.PrintProperty("wlNewSwitchMatrix");
+	// 		} else {
+	// 			wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
+	// 		}
+	// 		slSwitchMatrix.PrintProperty("slSwitchMatrix");
+	// 		mux.PrintProperty("mux");
+	// 		muxDecoder.PrintProperty("muxDecoder");
+	// 		multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
+	// 		multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
+	// 	} else {
+	// 		if (cell.accessType == CMOS_access) {
+	// 			wlNewSwitchMatrix.PrintProperty("wlNewSwitchMatrix");
+	// 		} else {
+	// 			wlSwitchMatrix.PrintProperty("wlSwitchMatrix");
+	// 		}
+	// 		slSwitchMatrix.PrintProperty("slSwitchMatrix");
+	// 		mux.PrintProperty("mux");
+	// 		muxDecoder.PrintProperty("muxDecoder");
+	// 		multilevelSenseAmp.PrintProperty("multilevelSenseAmp");
+	// 		multilevelSAEncoder.PrintProperty("multilevelSAEncoder");
+	// 		if (numReadPulse > 1) {
+	// 			shiftAddWeight.PrintProperty("shiftAddWeight");
+	// 			shiftAddInput.PrintProperty("shiftAddInput");
+	// 		}
+	// 	}
+	// } 
+	// FunctionUnit::PrintProperty("SubArray");
+	// cout << "Used Area = " << usedArea*1e12 << "um^2" << endl;
+	// cout << "Empty Area = " << emptyArea*1e12 << "um^2" << endl;
 }
 
