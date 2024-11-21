@@ -183,7 +183,7 @@ Param::Param() {
 	globalBusDelayTolerance = 0.1;      // to relax bus delay for global H-Tree (chip level: communication among tiles), if tolerance is 0.1, the latency will be relax to (1+0.1)*optimalLatency (trade-off with energy)
 	localBusDelayTolerance = 0.1;       // to relax bus delay for global H-Tree (tile level: communication among PEs), if tolerance is 0.1, the latency will be relax to (1+0.1)*optimalLatency (trade-off with energy)
 	treeFoldedRatio = 4;                // the H-Tree is assumed to be able to folding in layout (save area)
-	maxGlobalBusWidth = 2048;           // the max buswidth allowed on chip level (just a upper_bound, the actual bus width is defined according to the auto floorplan)
+	maxGlobalBusWidth = 8192;           // the max buswidth allowed on chip level (just a upper_bound, the actual bus width is defined according to the auto floorplan)
 										// NOTE: Carefully choose this number!!!
 										// e.g. when use pipeline with high speedUpDegree, i.e. high throughput, need to increase the global bus width (interface of global buffer) --> guarantee global buffer speed
 
@@ -267,70 +267,70 @@ Param::Param() {
 	// SRAM cell size at 14nm: 300F^2
 	// SRAM cell size at 10nm: 400F^2
 	// SRAM cell size at 7nm: 600F^2
-	heightInFeatureSizeSRAM = 10;        // SRAM Cell height in feature size  
-	widthInFeatureSizeSRAM = 28;        // SRAM Cell width in feature size  
-	widthSRAMCellNMOS = 2;                            
-	widthSRAMCellPMOS = 1;
-	widthAccessCMOS = 1;
+	heightInFeatureSizeSRAM = 8;        // SRAM Cell height in feature size  
+	widthInFeatureSizeSRAM = 20;        // SRAM Cell width in feature size  
+	widthSRAMCellNMOS = 2.08;                            
+	widthSRAMCellPMOS = 1.23;
+	widthAccessCMOS = 1.31;
 
 	// 1.4 update : SRAM size update
-
-	if (technode>14){
-	widthSRAMCellNMOS = 1;                            
-	widthSRAMCellPMOS = 1;
-	widthAccessCMOS = 1;
-	heightInFeatureSizeSRAM = 10;        // SRAM Cell height in feature size  
-	widthInFeatureSizeSRAM = 28;        // SRAM Cell width in feature size  
-	}
-	else if (technode==14){ // Samsung 14 nm 
-	widthSRAMCellNMOS = 1;                            
-	widthSRAMCellPMOS = 1;
-	widthAccessCMOS = 1;
-	heightInFeatureSizeSRAM = 10.6;        // SRAM Cell height in feature size  
-	widthInFeatureSizeSRAM = 30.8;        // SRAM Cell width in feature size  
-	}
-	else if (technode==10){ // TSMC 10 nm 
-	widthSRAMCellNMOS = 1;                            
-	widthSRAMCellPMOS = 1;
-	widthAccessCMOS = 1;
-	heightInFeatureSizeSRAM = 12.8;        // SRAM Cell height in feature size  
-	widthInFeatureSizeSRAM = 31.25;        // SRAM Cell width in feature size  
-	}
-	else if (technode==7){ // TSMC IEDM 2016
-	widthSRAMCellNMOS = 1;                            
-	widthSRAMCellPMOS = 1;
-	widthAccessCMOS = 1;
-	heightInFeatureSizeSRAM = 16;        // SRAM Cell height in feature size  
-	widthInFeatureSizeSRAM = 34.43;        // SRAM Cell width in feature size  
-	}
-	else if (technode==5){ // IRDS
-	widthSRAMCellNMOS = 1;                            
-	widthSRAMCellPMOS = 1;
-	widthAccessCMOS = 1;
-	heightInFeatureSizeSRAM = 19.2;        // SRAM Cell height in feature size  
-	widthInFeatureSizeSRAM = 43.75;        // SRAM Cell width in feature size  
-	}
-	else if (technode==3){ // IRDS
-	widthSRAMCellNMOS = 1;                            
-	widthSRAMCellPMOS = 1;
-	widthAccessCMOS = 1;
-	heightInFeatureSizeSRAM = 30;        // SRAM Cell height in feature size  
-	widthInFeatureSizeSRAM = 68.26;        // SRAM Cell width in feature size  
-	}
-	else if (technode==2){ // IRDS
-	widthSRAMCellNMOS = 1;                            
-	widthSRAMCellPMOS = 1;
-	widthAccessCMOS = 1;
-	heightInFeatureSizeSRAM = 42;        // SRAM Cell height in feature size  
-	widthInFeatureSizeSRAM = 120;// 111.42;        // SRAM Cell width in feature size  
-	}
-	else if (technode==1){ // IRDS
-	widthSRAMCellNMOS = 1;                            
-	widthSRAMCellPMOS = 1;
-	widthAccessCMOS = 1;
-	heightInFeatureSizeSRAM = 80;        // SRAM Cell height in feature size  
-	widthInFeatureSizeSRAM = 144;        // SRAM Cell width in feature size  
-	}
+	// [H] DISABLED
+	// if (technode>14){
+	// widthSRAMCellNMOS = 1;                            
+	// widthSRAMCellPMOS = 1;
+	// widthAccessCMOS = 1;
+	// heightInFeatureSizeSRAM = 10;        // SRAM Cell height in feature size  
+	// widthInFeatureSizeSRAM = 28;        // SRAM Cell width in feature size  
+	// }
+	// else if (technode==14){ // Samsung 14 nm 
+	// widthSRAMCellNMOS = 1;                            
+	// widthSRAMCellPMOS = 1;
+	// widthAccessCMOS = 1;
+	// heightInFeatureSizeSRAM = 10.6;        // SRAM Cell height in feature size  
+	// widthInFeatureSizeSRAM = 30.8;        // SRAM Cell width in feature size  
+	// }
+	// else if (technode==10){ // TSMC 10 nm 
+	// widthSRAMCellNMOS = 1;                            
+	// widthSRAMCellPMOS = 1;
+	// widthAccessCMOS = 1;
+	// heightInFeatureSizeSRAM = 12.8;        // SRAM Cell height in feature size  
+	// widthInFeatureSizeSRAM = 31.25;        // SRAM Cell width in feature size  
+	// }
+	// else if (technode==7){ // TSMC IEDM 2016
+	// widthSRAMCellNMOS = 1;                            
+	// widthSRAMCellPMOS = 1;
+	// widthAccessCMOS = 1;
+	// heightInFeatureSizeSRAM = 16;        // SRAM Cell height in feature size  
+	// widthInFeatureSizeSRAM = 34.43;        // SRAM Cell width in feature size  
+	// }
+	// else if (technode==5){ // IRDS
+	// widthSRAMCellNMOS = 1;                            
+	// widthSRAMCellPMOS = 1;
+	// widthAccessCMOS = 1;
+	// heightInFeatureSizeSRAM = 19.2;        // SRAM Cell height in feature size  
+	// widthInFeatureSizeSRAM = 43.75;        // SRAM Cell width in feature size  
+	// }
+	// else if (technode==3){ // IRDS
+	// widthSRAMCellNMOS = 1;                            
+	// widthSRAMCellPMOS = 1;
+	// widthAccessCMOS = 1;
+	// heightInFeatureSizeSRAM = 30;        // SRAM Cell height in feature size  
+	// widthInFeatureSizeSRAM = 68.26;        // SRAM Cell width in feature size  
+	// }
+	// else if (technode==2){ // IRDS
+	// widthSRAMCellNMOS = 1;                            
+	// widthSRAMCellPMOS = 1;
+	// widthAccessCMOS = 1;
+	// heightInFeatureSizeSRAM = 42;        // SRAM Cell height in feature size  
+	// widthInFeatureSizeSRAM = 120;// 111.42;        // SRAM Cell width in feature size  
+	// }
+	// else if (technode==1){ // IRDS
+	// widthSRAMCellNMOS = 1;                            
+	// widthSRAMCellPMOS = 1;
+	// widthAccessCMOS = 1;
+	// heightInFeatureSizeSRAM = 80;        // SRAM Cell height in feature size  
+	// widthInFeatureSizeSRAM = 144;        // SRAM Cell width in feature size  
+	// }
 
 
 	minSenseVoltage = 0.1;
@@ -341,26 +341,28 @@ Param::Param() {
 	heightInFeatureSizeCrossbar = 2;    // Crossbar Cell height in feature size
 	widthInFeatureSizeCrossbar = 2;     // Crossbar Cell width in feature size
 	
-	resistanceOn = 100e3; // 6e3;               // Ron resistance at Vr in the reported measurement data (need to recalculate below if considering the nonlinearity)
-	resistanceOff = 100e3*17;// 6e3*17;           // Roff resistance at Vr in the reported measurement dat (need to recalculate below if considering the nonlinearity)
+	resistanceOn = 240e3; // 6e3;               // Ron resistance at Vr in the reported measurement data (need to recalculate below if considering the nonlinearity)
+	resistanceOff = 240e3*100;// 6e3*17;           // Roff resistance at Vr in the reported measurement dat (need to recalculate below if considering the nonlinearity)
 	maxConductance = (double) 1/resistanceOn;
 	minConductance = (double) 1/resistanceOff;
 	
+	//[H] Changes
+	readVoltage = 0.5
 	// 230920 update 
 	// read voltage needed for mux energy calculation - read voltage is fixed for Neurosim1.4, due to the assumptions for the ADC modeling equation (refer to manual for more information)
-	if (technode == 130) {readVoltage=0.58;}
-	else if (technode == 90) {readVoltage=0.58;}
-	else if (technode == 65) {readVoltage=0.55;}
-	else if (technode == 45) {readVoltage=0.51;}
-	else if (technode == 32) {readVoltage=0.51;}
-	else if (technode == 22) {readVoltage=0.55;}
-	else if (technode == 14) {readVoltage=0.277;}
-	else if (technode == 10) {readVoltage=0.28;} 
-	else if (technode == 7) {readVoltage=0.264;}
-	else if (technode == 5) {readVoltage=0.253;}
-	else if (technode == 3) {readVoltage=0.248;}
-	else if (technode == 2) {readVoltage=0.28;}
-	else if (technode == 1) {readVoltage=0.272;}
+	// if (technode == 130) {readVoltage=0.58;}
+	// else if (technode == 90) {readVoltage=0.58;}
+	// else if (technode == 65) {readVoltage=0.55;}
+	// else if (technode == 45) {readVoltage=0.51;}
+	// else if (technode == 32) {readVoltage=0.51;}
+	// else if (technode == 22) {readVoltage=0.55;}
+	// else if (technode == 14) {readVoltage=0.277;}
+	// else if (technode == 10) {readVoltage=0.28;} 
+	// else if (technode == 7) {readVoltage=0.264;}
+	// else if (technode == 5) {readVoltage=0.253;}
+	// else if (technode == 3) {readVoltage=0.248;}
+	// else if (technode == 2) {readVoltage=0.28;}
+	// else if (technode == 1) {readVoltage=0.272;}
 
 	readPulseWidth = 10e-9;             // read pulse width in sec
 	accessVoltage = 1.1;                // Gate voltage for the transistor in 1T1R
