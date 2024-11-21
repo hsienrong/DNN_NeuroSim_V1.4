@@ -2075,6 +2075,10 @@ void SubArray::PrintProperty() {
 	cout << "Height(m) = " << height << endl;
 	cout << "Width(m) = " << width << endl;
 	cout << "Area(m^2) = " << area << endl;
+	cout << "areaADC(m^2) = " << areaADC << endl;
+	cout << "areaArray(m^2) = " << areaArray << endl;
+	cout << "areaAccum(m^2) = " << areaAccum << endl;
+	cout << "AreaOther(m^2) = " << areaOther << endl;
 	cout << "UsedArea(m^2) = " << usedArea <<  endl;
 	cout << "EmptyArea(m^2) = " << emptyArea << endl;
 	cout << "ReadDynamicEnergy(J) = " << readDynamicEnergy << endl;
@@ -2088,6 +2092,7 @@ void SubArray::PrintProperty() {
 	cout << "ReadLatencyOther(s) = " << readLatencyOther << endl;
 	cout << "WriteDynamicEnergy(J) = " << writeDynamicEnergy << endl;
 	cout << "WriteLatency(s) = " << writeLatency << endl;
+
 	cout << "clkFreq = " << clkFreq << endl;
 	
 	cout << "[\\H]" << endl;
