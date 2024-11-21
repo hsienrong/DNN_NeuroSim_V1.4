@@ -630,7 +630,11 @@ double ProcessingUnitCalculatePerformance(SubArray *subArray, const vector<vecto
 			
 		*coreEnergyOther += (*bufferDynamicEnergy) + (*icDynamicEnergy);		
 	}
+	
+	subArray->PrintProperty();
+	
 	return 0;
+
 }
 
 
