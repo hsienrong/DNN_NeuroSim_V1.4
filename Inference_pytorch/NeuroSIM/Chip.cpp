@@ -742,6 +742,9 @@ double ChipCalculatePerformance(InputParameter& inputParameter, Technology& tech
 
 	int numInVector = (netStructure[l][0]-netStructure[l][3]+1)/netStructure[l][7]*(netStructure[l][1]-netStructure[l][4]+1)/netStructure[l][7];
 	
+	//[h]
+	cout << "numInVector chiplvl: " << numInVector << endl;
+
 	// 230920 update
 	int totalNumTile = 0;
 	int totalInput=0; 
