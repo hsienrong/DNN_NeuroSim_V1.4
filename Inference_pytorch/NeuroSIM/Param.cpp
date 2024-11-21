@@ -347,7 +347,7 @@ Param::Param() {
 	minConductance = (double) 1/resistanceOff;
 	
 	//[H] Changes
-	readVoltage = 0.5
+	readVoltage = 0.5;
 	// 230920 update 
 	// read voltage needed for mux energy calculation - read voltage is fixed for Neurosim1.4, due to the assumptions for the ADC modeling equation (refer to manual for more information)
 	// if (technode == 130) {readVoltage=0.58;}
